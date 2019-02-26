@@ -1,0 +1,21 @@
+<launch>
+    <env name="ROSCONSOLE_CONFIG_FILE" 
+                               value="$(find chat)/cfg/rosconsole.conf"/>
+
+    <node name="mytalker" pkg="chat" type="talker_node" output="screen" >
+	<remap from="chatter" to="/robo/chatter" />
+    </node>
+   <node name="other_talker" pkg="chat" type="talker_node" output="screen" >
+	<remap from="chatter" to="/robo/chatter" />
+    </node>
+    <node name="mylistener" pkg="chat" type="listener_node" output="screen" >
+	<remap from="chatter" to="/robo/chatter" />
+     </node>
+
+</launch>
+
+<!--
+name - имя узла , может быть произвольным
+pkg - имя пакета  (catkin_create_pkg )
+type - имя исполняемого файла (add_executable(имя ...))
+output - управление выводом в консоль (screen или log )    -->
