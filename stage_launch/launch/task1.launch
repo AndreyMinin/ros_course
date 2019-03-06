@@ -1,0 +1,5 @@
+<launch>
+   <node pkg="stage_ros" type="stageros" name="model"
+     args="$(find stage_launch)/worlds/task1.world"/>
+
+</launch>
