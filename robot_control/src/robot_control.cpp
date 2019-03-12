@@ -3,21 +3,22 @@
 #include "nav_msgs/Odometry.h"
 
 bool obstacle = false;
-float cmd_V(0), cmd_W(0);
 ros::Publisher pub;
 
 /**
  * Функция, которая будет вызвана
  * при получении данных от лазерного дальномера
+ * параметр функции msg - ссылка на полученное сообщение
  */
-void laserCallback(const sensor_msgs::LaserScanConstPtr& msg)
+void laserCallback(const sensor_msgs::LaserScan& msg)
 {
-  ROS_DEBUG_STREAM("Laser msg: "<<msg->scan_time);
+  ROS_DEBUG_STREAM("Laser msg: "<<msg.scan_time);
 
+  const double kMinRange = 0.3;
   //проверим нет ли вблизи робота препятствия
-  for (size_t i = 0; i<msg->ranges.size(); i++)
+  for (size_t i = 0; i<msg.ranges.size(); i++)
   {
-	  if ( msg->ranges[i] < 0.3 )
+      if (msg.ranges[i] < kMinRange)
 	  {
 		  obstacle = true;
 		  ROS_WARN_STREAM("OBSTACLE!!!");
@@ -30,17 +31,19 @@ void laserCallback(const sensor_msgs::LaserScanConstPtr& msg)
 /**
  * Функция, которая будет вызвана при
  * получении сообщения с текущем положением робота
+ * параметр функции msg - ссылка на полученное сообщение
  */
 
-void poseCallback(const nav_msgs::OdometryConstPtr& msg)
+void poseCallback(const nav_msgs::Odometry& msg)
 {
-  ROS_DEBUG_STREAM("Pose msg: x = "<<msg->pose.pose.position.x<<
-          " y = "<<msg->pose.pose.position.y<<
-          " theta = "<<2*atan2(msg->pose.pose.orientation.z,
-                  msg->pose.pose.orientation.w) );
+  ROS_DEBUG_STREAM("Pose msg: x = " << msg.pose.pose.position.x<<
+          " y = " << msg.pose.pose.position.y <<
+          " theta = " << 2*atan2(msg.pose.pose.orientation.z,
+                  msg.pose.pose.orientation.w) );
 }
 /*
  * функция обработчик таймера
+ * параметр функции - структура, описывающая событие таймера, здесь не используется
  */
 void timerCallback(const ros::TimerEvent&)
 {  
@@ -52,9 +55,9 @@ void timerCallback(const ros::TimerEvent&)
 	geometry_msgs::Twist cmd;
 	//при создании структура сообщения заполнена нулевыми значениями
 	//если вблизи нет препятствия то задаем команды
-	if ( !obstacle )
+    if (!obstacle)
 	{
-		if ( counter % 30 > 15)
+        if (counter % 30 > 15)
 		{
 			ROS_INFO_STREAM("go left");
 			cmd.linear.x = 0.5;
@@ -100,12 +103,12 @@ int main(int argc, char **argv)
    *  Подписываемся на данные дальномера
 
    */
-  ros::Subscriber laser_sub = n.subscribe("base_scan", 100, laserCallback);
+  ros::Subscriber laser_sub = n.subscribe("base_scan", 1, laserCallback);
 
   /*
    * Подписываемся на данные о положении робота
    */
-  ros::Subscriber pose_sub = n.subscribe("base_pose_ground_truth", 100, poseCallback);
+  ros::Subscriber pose_sub = n.subscribe("base_pose_ground_truth", 1, poseCallback);
 
 
   /*
@@ -117,12 +120,12 @@ int main(int argc, char **argv)
    * Сообщаем, что мы будем публиковать сообщения типа Twist по топику cmd_vel
    * второй параметр - длина очереди
    */
-  pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 100);
+  pub = n.advertise<geometry_msgs::Twist>("cmd_vel", 1);
 
    /**
    * ros::spin() функция внутри которой происходит вся работа по приему сообщений
    * и вызову соответствующих обработчиков . Вся обработка происходит из основного потока
-   * (того, который вызвал ros::spin(), то есть основного в данном случае)
+   * (того, который вызвал ros::spin())
    * Функция будет завершена, когда подьзователь прервет выполнение процесса с Ctrl-C
    *
    */
