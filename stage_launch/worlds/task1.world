@@ -31,6 +31,7 @@ floorplan
   size [16.000 16.000 0.800]
   pose [0 0 0 0]
   bitmap "bitmaps/cave.png"
+  obstacle_return 1
 )
 
 
@@ -46,4 +47,5 @@ pioneer2dx_base_no_sonar
   # report error-free position in world coordinates
   localization "gps"
   localization_origin [ 0 0 0 0 ]
+  obstacle_return 1
 )
