@@ -1,0 +1,15 @@
+<launch>
+   <env name="ROSCONSOLE_CONFIG_FILE"  value="$(find line_control)/cfg/rosconsole.conf"/>
+   <node pkg="stage_ros" type="stageros" name="model"
+     args="$(find stage_launch)/worlds/empty.world"/>
+   <param name="use_sim_time" value="true" />
+  <node pkg="line_control" type="line_control_node" name="control" output="screen" >
+	<remap from="scan" to="base_scan"/>
+        <param name="task_vel" value="0.5"/>
+        <param name="prop_factor" value="1"/>
+        <param name="int_factor" value="0.0"/>
+        <param name="diff_factor" value="0.0"/>
+        <param name="min_obstacle_range" value="1.5"/>
+        <param name="line_y" value="-7"/>
+   </node>
+</launch>
