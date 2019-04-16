@@ -1,0 +1,12 @@
+<launch>
+  <!-- launch to start gmapping  -->
+	<arg name="scan" default="base_scan" />
+
+	<include file="$(find navigation)/launch/gmapping_low.launch">
+	    <arg name="scan" value="$(arg scan)" />
+	</include> 
+	
+	<include file="$(find navigation)/launch/move_base/move_base.xml">
+	    <arg name="scan" value="$(arg scan)" />
+	</include> 
+</launch>

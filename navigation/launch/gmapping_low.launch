@@ -1,0 +1,18 @@
+<launch>
+  <!-- launch to start gmapping to build map from scans -->
+	<arg name="scan" default="base_scan" />
+	
+	<node name="mapper" pkg="gmapping" type="slam_gmapping" args="scan:=$(arg scan)" respawn="false" output="screen">
+  		<param name="throttle_scans" value="4"/>
+		<param name="maxUrange" value="8"/>
+		<param name="lskip" value="3"/>
+		<param name="str" value="0.2"/>
+		<param name="angularUpdate" value="0.2"/>
+		<param name="particles" value="20"/>
+		<param name="xmin" value="-25"/>
+		<param name="xmax" value="25"/>
+		<param name="ymin" value="-25"/>
+		<param name="ymax" value="25"/>
+                <param name="maxRange" value="8"/>
+  	</node>
+</launch>

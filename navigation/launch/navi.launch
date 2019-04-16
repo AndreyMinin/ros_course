@@ -1,0 +1,14 @@
+<launch>
+   <arg name="use_amcl" default="false"/>
+   <arg name="map_name" default="map"/>
+
+   <include file="$(find stage_launch)/launch/task1.launch"/>
+   <param name="use_sim_time" value="true" />
+	
+   <include file="$(find navigation)/launch/navigation.launch" unless="$(arg use_amcl)"/> 
+   <include file="$(find navigation)/launch/navigation_amcl.launch" if="$(arg use_amcl)">
+	<arg name="map_name" value="$(arg map_name)"/>
+   </include> 
+
+   <node name="gui" pkg="rviz" type="rviz" args="-d $(find navigation)/navi.rviz"/>
+</launch>
