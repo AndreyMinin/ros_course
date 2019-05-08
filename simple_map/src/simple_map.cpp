@@ -3,6 +3,8 @@
 #include <nav_msgs/OccupancyGrid.h>
 #include <tf/transform_listener.h>
 
+#include "simple_map/scan_to_map.h"
+
 //глобальная переменная - публикатор сообщения карты
 ros::Publisher mapPub;
 
