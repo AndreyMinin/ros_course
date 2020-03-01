@@ -7,4 +7,15 @@
 	<remap from="scan" to="base_scan"/>
 	
    </node>
+  <node pkg="control_selector" type="control_selector" name="control" output="screen" >
+	<remap from="scan" to="base_scan"/>
+	<remap from="pose" to="base_pose_ground_truth"/>
+	<param name="min_range" value="1" />
+	<param name="max_vel" value="1" />
+	<param name="max_omega" value="0.5" />
+	<param name="angle" value="30" />
+	<param name="k_omega" value="20" />
+	<param name="k_vel" value="0.01" />
+	
+   </node>
 </launch>
