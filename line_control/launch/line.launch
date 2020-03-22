@@ -10,6 +10,6 @@
         <param name="int_factor" value="0.0"/>
         <param name="diff_factor" value="0.0"/>
         <param name="min_obstacle_range" value="1.5"/>
-        <param name="line_y" value="-7"/>
+        <param name="line_y" value="-6"/>
    </node>
 </launch>
