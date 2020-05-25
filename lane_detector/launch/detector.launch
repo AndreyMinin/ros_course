@@ -1,12 +1,13 @@
 <launch>
+ <arg name="bag" default=""/>
  <include file="$(find lane_detector)/launch/video.launch">
+   <arg name="bag" value="$(arg bag)"/>
  </include>
 
  <node name="detector" pkg="lane_detector" type="lane_detector" output="screen">
  <remap from="/camera/image" to="/camera/image_raw"/>
  </node>
 
- <node name="view" pkg="image_view" type="image_view">
- <remap from="image" to="processed_image"/>
+ <node name="processed_view" pkg="rqt_image_view" type="rqt_image_view" args="/processed_image">
  </node>
 </launch>

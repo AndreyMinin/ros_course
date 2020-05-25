@@ -1,6 +1,7 @@
 <launch>
+   <arg name="bag" default=""/>
    <!-- launch video stream -->
-   <include file="$(find video_stream_opencv)/launch/camera.launch" >
+   <include if="$(eval bag == '')" file="$(find video_stream_opencv)/launch/camera.launch" >
         <!-- node name and ros graph name -->
         <arg name="camera_name" value="camera" />
         <arg name="video_stream_provider" value="$(find lane_detector)/video/solidWhiteRight.mp4" />
@@ -16,6 +17,9 @@
         <!-- flip the image vertically -->
         <arg name="flip_vertical" value="false" />
         <!-- visualize on an image_view window the stream generated -->
-        <arg name="visualize" value="true" />
+        <arg name="visualize" value="false" />
    </include>
+   <node if="$(eval bag !='')" pkg="rosbag" name="bagplayer" type="play" args="$(arg bag) -l"/>
+   <node name="camera_view" pkg="rqt_image_view" type="rqt_image_view" args="/camera/image_raw">
+   </node>
 </launch>
