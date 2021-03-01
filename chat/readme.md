@@ -51,6 +51,7 @@ rqt
 В нем нужно запустить `plugins`->`Introspection`->`Node_graph` чтобы увидеть запущенный узлы и связи между ними.
 
 7. Использование launch файлов для запуска узлов и ros мастера.
+
 Перед запуском нужно завершить процессы на всех открытых терминалах, включая roscore (С помощью cntrl-C)
 Launch файлы позволяют запскать несколько узлов (включая ros мастер) сразу - из одного терминала. Пример launch файлв для запуска listener_node и talkr_node [chat/launch/chat.launch](https://github.com/AndreyMinin/ros_course/blob/master/chat/launch/chat.launch)
 ```bash
@@ -58,7 +59,7 @@ cd <рабочая папка>
 source devel/setup.bash
 roslaunch chat chat.launch
 ```
-launch файлы позволяют переназначить имена топиков, для запускаемых нод с помощью remap. Посмотрите как это сделано в launch файлах [chat2.launch](https://github.com/AndreyMinin/ros_course/blob/master/chat/launch/chat2.launch) и [chat3.launch](https://github.com/AndreyMinin/ros_course/blob/master/chat/launch/chat.launch). Запустите их с помощью roslaunch и с помощью rqt посмотрите какие узлы с какими связями(топиками) создаются
+launch файлы позволяют переназначить имена топиков, для запускаемых нод с помощью remap. Посмотрите как это сделано в launch файлах [chat2.launch](https://github.com/AndreyMinin/ros_course/blob/master/chat/launch/chat2.launch) и [chat3.launch](https://github.com/AndreyMinin/ros_course/blob/master/chat/launch/chat3.launch). Запустите их с помощью roslaunch и с помощью rqt посмотрите какие узлы с какими связями(топиками) создаются
 
 ## Задача
 1. Модифицировать исходный код программ listener_node - [chat/src/listener.cpp](https://github.com/AndreyMinin/ros_course/blob/master/chat/src/listener.cpp) и talker_node [chat/src/talker.cpp](https://github.com/AndreyMinin/ros_course/blob/master/chat/src/talker.cpp), чтобы listener слал ответные сообщения по отдельному топику (например `/reply`) при получении сообщения от chatter. Также модифицировать код chatter, чтобы он получал эти ответные сообщения и выводил их на экран. 
